@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminLogin from "./pages/admin/login";
-import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SelectProgram from "./pages/admin/selectProgram";
 import Dashboard from "./pages/admin/dashboard";
+import Manage from "./pages/admin/manage";
+import StudentView from "./pages/student/StudentView";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* Public Pages */}
+        <Route path="/student" element={<StudentView />} />
+
+        {/* Admin Pages */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/admin/select-program"
@@ -28,14 +32,14 @@ function App() {
           }
         />
 
-        {/* <Route
+        <Route
           path="/admin/manage"
           element={
             <ProtectedRoute>
               <Manage />
             </ProtectedRoute>
           }
-        /> */}
+        />
       </Routes>
     </BrowserRouter>
   );

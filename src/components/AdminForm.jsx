@@ -2,14 +2,13 @@ import { useState } from "react";
 import { db } from "../../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
-export default function AdminPanel({ defaultCategory }) {
+export default function AdminForm({ program, category }) {
   const [title, setTitle] = useState("");
-  const [program, setProgram] = useState("BCA");
   const [semester, setSemester] = useState("1");
-  const [category, setCategory] = useState(defaultCategory);
   const [pdfLink, setPdfLink] = useState("");
 
-  // Dynamic semester list
+  const isExamNotice = category === "Exam Notice";
+
   const semesters =
     program === "BCA" ? ["1", "2", "3", "4", "5", "6"] : ["1", "2", "3", "4"];
 
@@ -23,7 +22,7 @@ export default function AdminPanel({ defaultCategory }) {
       await addDoc(collection(db, "resources"), {
         title,
         program,
-        semester,
+        semester: isExamNotice ? "ALL" : semester,
         category,
         pdfLink,
         createdAt: serverTimestamp(),
@@ -40,8 +39,16 @@ export default function AdminPanel({ defaultCategory }) {
   };
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Admin Panel</h2>
+    <div className="bg-white p-5 rounded-lg shadow max-w-md">
+      <h2 className="text-xl font-bold mb-2">
+        Upload {category} – {program}
+      </h2>
+
+      {isExamNotice && (
+        <p className="text-sm text-gray-500 mb-3">
+          This notice will apply to all semesters.
+        </p>
+      )}
 
       {/* Title */}
       <input
@@ -51,43 +58,20 @@ export default function AdminPanel({ defaultCategory }) {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      {/* Program */}
-      <select
-        className="w-full border p-2 mb-3"
-        value={program}
-        onChange={(e) => {
-          setProgram(e.target.value);
-          setSemester("1"); // reset semester when program changes
-        }}
-      >
-        <option value="BCA">BCA</option>
-        <option value="MCA">MCA</option>
-      </select>
-
-      {/* Semester */}
-      <select
-        className="w-full border p-2 mb-3"
-        value={semester}
-        onChange={(e) => setSemester(e.target.value)}
-      >
-        {semesters.map((sem) => (
-          <option key={sem} value={sem}>
-            Semester {sem}
-          </option>
-        ))}
-      </select>
-
-      {/* Category */}
-      <select
-        className="w-full border p-2 mb-3"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      >
-        <option value="Syllabus">Syllabus</option>
-        <option value="Timetable">Timetable</option>
-        <option value="Exam Notice">Exam Notice</option>
-        <option value="Previous Year Paper">Previous Year Paper</option>
-      </select>
+      {/* Semester (hidden for Exam Notice) */}
+      {!isExamNotice && (
+        <select
+          className="w-full border p-2 mb-3"
+          value={semester}
+          onChange={(e) => setSemester(e.target.value)}
+        >
+          {semesters.map((sem) => (
+            <option key={sem} value={sem}>
+              Semester {sem}
+            </option>
+          ))}
+        </select>
+      )}
 
       {/* PDF Link */}
       <input
@@ -97,7 +81,6 @@ export default function AdminPanel({ defaultCategory }) {
         onChange={(e) => setPdfLink(e.target.value)}
       />
 
-      {/* Upload Button */}
       <button
         onClick={handleSubmit}
         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"

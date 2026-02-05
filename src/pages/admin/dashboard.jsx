@@ -23,34 +23,34 @@ export default function Dashboard() {
       <h1 className="text-2xl font-bold mb-2">{program} Admin Dashboard</h1>
 
       <p className="text-gray-600 mb-6">
-        Khwaja Moinuddin Chishti Language University – CS & IT Department
+        Khwaja Moinuddin Chishti Language University - CS & IT Department
       </p>
 
-      <div className="grid grid-cols-2 gap-6 max-w-3xl">
+      <div className="grid grid-cols-4 gap-3 max-w-8xl">
         <button
           onClick={() => goToManage("Syllabus")}
-          className="p-6 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+          className="p-6 cursor-pointer bg-blue-600 text-white rounded shadow hover:bg-blue-700"
         >
           Manage Syllabus
         </button>
 
         <button
           onClick={() => goToManage("Timetable")}
-          className="p-6 bg-green-600 text-white rounded shadow hover:bg-green-700"
+          className="p-6 cursor-pointer bg-green-600 text-white rounded shadow hover:bg-green-700"
         >
           Manage Timetable
         </button>
 
         <button
           onClick={() => goToManage("Exam Notice")}
-          className="p-6 bg-orange-600 text-white rounded shadow hover:bg-orange-700"
+          className="p-6 cursor-pointer bg-orange-600 text-white rounded shadow hover:bg-orange-700"
         >
           Manage Exam Notices
         </button>
 
         <button
           onClick={() => goToManage("Previous Year Paper")}
-          className="p-6 bg-purple-600 text-white rounded shadow hover:bg-purple-700"
+          className="p-6 cursor-pointer bg-purple-600 text-white rounded shadow hover:bg-purple-700"
         >
           Manage Previous Year Papers
         </button>
